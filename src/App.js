@@ -1,23 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import { useSelector } from "react-redux"
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom"
+import Chat from "./router/chat/Chat.jsx"
+import Login from './router/login/Login';
 
 function App() {
+  const auth = useSelector(s => s.auth)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Switch>
+          {
+            auth ? 
+            <>
+              <Route  path="/chat" component={Chat} />
+              <Redirect to="/chat"/>
+            </>
+            :
+            <>
+              <Route path="/login" component={Login}/>
+              <Redirect to="/login"/>
+            </>
+          }
+        </Switch>
+      </Router>
     </div>
   );
 }
